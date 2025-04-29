@@ -29,8 +29,6 @@ class Attendee extends Model
     public static function getForm(): array
     {
         
-
-
         return [
             Group::make()
                 ->columns(2)
