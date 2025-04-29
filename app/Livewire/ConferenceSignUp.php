@@ -30,6 +30,8 @@ class ConferenceSignUp extends Component
             'conference_id' => $this->selectedConference,
             'name' => $this->name,
             'email' => $this->email,
+            'ticket_cost' => 500,
+            'is_paid' => true, // Assuming a fixed cost for simplicity
         ]);
 
         session()->flash('message', 'You have successfully signed up for the conference!');

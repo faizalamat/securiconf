@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\Nationality;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,22 +32,21 @@ class Attendee extends Model
 
 
         return [
-            Group::make()->columns(2)->schema([
-                TextInput::make('name')
-                    ->required()->maxLength(255),
-                TextInput::make('email')
-                    ->email()->required()->maxLength(255),
-                FileUpload::make('photo')
-                    // ->saveUploadedFileUsing(function (FileUpload $component, TemporaryUploadedFile $file): string {
-                    //         return self::uploadFile('public', $component, $file);
-                    // })
-                    // ->deleteUploadedFileUsing(function($file) {
-                    // self::removeFile('public', $file);
-                    // }),
-                    ->directory('idcards'),
-
+            Group::make()
+                ->columns(2)
+                    ->schema([
+                        TextInput::make('name')
+                        ->required()->maxLength(255),
+                        TextInput::make('email')
+                        ->email()->required()->maxLength(255),
+                        FileUpload::make('photo')
+                        ->directory('idcards'),
+                        Select::make('nationality')
+                        ->options(collect(Nationality::cases())->map(fn ($item) => $item->value)
+                        ->toArray()),
+                
             ])
-        ];
+    ];
     }
 
 }

@@ -43,6 +43,7 @@ class Conference extends Model
         'venue_id' => 'integer',
         'status' => ConferenceStatus::class,
         'region' => Region::class,
+        
     ];
 
     public function venue(): BelongsTo
@@ -60,10 +61,7 @@ class Conference extends Model
         return $this->belongsToMany(Talk::class);
     }
 
-    // public function attendees(): HasMany
-    // {
-    //     return $this->hasMany(Attendee::class);
-    // }
+    
 
     public function attendees(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

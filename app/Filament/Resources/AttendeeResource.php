@@ -74,6 +74,9 @@ class AttendeeResource extends Resource
                     // self::removeFile('public', $file);
                     // }),
                     ->directory('idcards'),
+                Forms\Components\Select::make('nationality')
+                    ->enum(\App\Enums\Nationality::class)
+                    ->options(\App\Enums\Nationality::class),
                 Forms\Components\TextInput::make('ticket_cost')
                     ->lazy()
                     ->required()
@@ -94,6 +97,12 @@ class AttendeeResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                    Tables\Columns\TextColumn::make('photo')
+                    
+                    ,
+                Tables\Columns\TextColumn::make('nationality')
+                    ->searchable()
+                    ,
                 Tables\Columns\TextColumn::make('ticket_cost')
                     ->numeric()
                     ->sortable(),

@@ -36,7 +36,8 @@ class ConferenceSignUpPage extends Component implements HasForms, HasActions
     public function signUpAction(): Action
     {
         return Action::make('signUp')
-            ->slideOver()
+            // ->url(route('conference-sign-up', ['conferenceId' => $this->conferenceId]))
+            ->openUrlInNewTab() // Ensures the URL opens in a new tab
             ->form([
                 Placeholder::make('total_price')
                     ->hiddenLabel()
