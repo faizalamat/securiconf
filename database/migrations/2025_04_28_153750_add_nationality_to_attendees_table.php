@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('attendees', function (Blueprint $table) {
-            $table->string('nationality')->default('MY')->after('ticket_cost');
+            $table->string('nationality')->default('Malaysian')->after('ticket_cost');
         });
     }
 

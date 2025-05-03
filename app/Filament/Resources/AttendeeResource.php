@@ -7,6 +7,7 @@ use App\Filament\Resources\AttendeeResource\RelationManagers;
 use App\Filament\Resources\AttendeeResource\Widgets\AttendeeChartWidget;
 use App\Filament\Resources\AttendeeResource\Widgets\AttendeesStatsWidget;
 use App\Models\Attendee;
+use App\Enums\Nationality;
 use Awcodes\Shout\Components\Shout;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -75,8 +76,18 @@ class AttendeeResource extends Resource
                     // }),
                     ->directory('idcards'),
                 Forms\Components\Select::make('nationality')
-                    ->enum(\App\Enums\Nationality::class)
-                    ->options(\App\Enums\Nationality::class),
+                    // ->options(collect(Nationality::cases())->map(fn ($item) => $item->value)
+                    // ->toArray())
+                    ->enum(Nationality::class)
+                    ->options(Nationality::class)
+                    ->reactive()
+                    ->afterStateHydrated(fn ($state, $set) => $set('nationality', (string) $state)), // Ensure it's a string
+                Forms\Components\FileUpload::make('passport_photo')
+                    ->directory('passport_photos')
+                    // ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    // ->maxSize(2 * 1024)// 2MB
+                    ->visible(fn (Forms\Get $get) => $get('nationality') === "Non-Malaysian"),
+                Forms\Components\TextInput::make('passport_number'),
                 Forms\Components\TextInput::make('ticket_cost')
                     ->lazy()
                     ->required()
@@ -102,6 +113,9 @@ class AttendeeResource extends Resource
                     ,
                 Tables\Columns\TextColumn::make('nationality')
                     ->searchable()
+                    ,
+                Tables\Columns\TextColumn::make('passport_photo')
+                   
                     ,
                 Tables\Columns\TextColumn::make('ticket_cost')
                     ->numeric()
